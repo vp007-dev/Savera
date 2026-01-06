@@ -1,0 +1,369 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SAVERA Design System - Eco-Cyber Dark Mode */
+
+@layer base {
+  :root {
+    /* Light mode - soft eco theme */
+    --background: 180 20% 97%;
+    --foreground: 220 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 15%;
+
+    /* Primary - Neon Mint Green */
+    --primary: 145 63% 49%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Deep Charcoal */
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 210 15% 90%;
+    --muted-foreground: 220 10% 45%;
+
+    /* Accent - Electric Orange */
+    --accent: 25 95% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 15% 88%;
+    --input: 210 15% 88%;
+    --ring: 145 63% 49%;
+
+    --radius: 1rem;
+
+    /* Chart colors */
+    --chart-1: 145 63% 49%;
+    --chart-2: 195 100% 50%;
+    --chart-3: 25 95% 53%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    /* Water color - Cyan Blue */
+    --water: 195 100% 50%;
+    --water-foreground: 195 100% 25%;
+
+    /* Energy color - Electric Orange */
+    --energy: 25 95% 53%;
+    --energy-foreground: 25 95% 25%;
+
+    /* Success color */
+    --success: 145 63% 49%;
+    --success-foreground: 0 0% 100%;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 25% 15%;
+    --sidebar-primary: 145 63% 49%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 25 95% 53%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 15% 88%;
+    --sidebar-ring: 145 63% 49%;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.03);
+    --shadow: 0 1px 3px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.07);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.08);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1);
+
+    --font-sans: 'Inter', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .dark {
+    /* Deep Charcoal Background */
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
+
+    /* Dark gray surfaces */
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 96%;
+
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 96%;
+
+    /* Primary - Neon Mint Green */
+    --primary: 145 63% 49%;
+    --primary-foreground: 0 0% 5%;
+
+    /* Secondary */
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    /* Accent - Electric Orange */
+    --accent: 25 95% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Subtle borders */
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 145 63% 49%;
+
+    /* Chart colors */
+    --chart-1: 145 63% 49%;
+    --chart-2: 195 100% 50%;
+    --chart-3: 25 95% 53%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    /* Water color - Cyan Blue */
+    --water: 195 100% 50%;
+    --water-foreground: 195 100% 85%;
+
+    /* Energy color - Electric Orange */
+    --energy: 25 95% 53%;
+    --energy-foreground: 25 95% 90%;
+
+    /* Success */
+    --success: 145 63% 49%;
+    --success-foreground: 0 0% 5%;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 145 63% 49%;
+    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 145 63% 49%;
+
+    /* Glow shadows for dark mode */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.4);
+    --shadow: 0 1px 3px 0 hsl(0 0% 0% / 0.5);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.5);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.5);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.6);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Glass morphism for Eco-Cyber */
+  .glass {
+    @apply bg-card border border-border shadow-lg backdrop-blur-sm;
+  }
+
+  .glass-strong {
+    @apply bg-card/95 border border-border shadow-xl backdrop-blur-xl;
+  }
+
+  /* Neon glow effects */
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(145 63% 49% / 0.3), 0 0 40px hsl(145 63% 49% / 0.1);
+  }
+
+  .glow-water {
+    box-shadow: 0 0 20px hsl(195 100% 50% / 0.3), 0 0 40px hsl(195 100% 50% / 0.1);
+  }
+
+  .glow-energy {
+    box-shadow: 0 0 20px hsl(25 95% 53% / 0.3), 0 0 40px hsl(25 95% 53% / 0.1);
+  }
+
+  /* Gradient backgrounds */
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(145 63% 40%) 100%);
+  }
+
+  .gradient-water {
+    background: linear-gradient(135deg, hsl(var(--water)) 0%, hsl(195 100% 40%) 100%);
+  }
+
+  .gradient-energy {
+    background: linear-gradient(135deg, hsl(var(--energy)) 0%, hsl(25 95% 45%) 100%);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 6%) 50%, hsl(0 0% 8%) 100%);
+  }
+
+  /* Bento card styles */
+  .bento-card {
+    @apply p-4 rounded-3xl bg-card border border-border transition-all duration-200;
+  }
+
+  .bento-card:hover {
+    @apply border-primary/30;
+    box-shadow: 0 0 30px hsl(145 63% 49% / 0.1);
+  }
+
+  /* Pastel cards - dark mode friendly */
+  .card-water {
+    @apply bg-water/10 border-water/20;
+  }
+
+  .card-energy {
+    @apply bg-energy/10 border-energy/20;
+  }
+
+  .card-success {
+    @apply bg-success/10 border-success/20;
+  }
+
+  .card-accent {
+    @apply bg-accent/10 border-accent/20;
+  }
+
+  /* Fast animations - optimized for performance */
+  .animate-fade-up {
+    animation: fadeUp 0.2s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.15s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.15s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.2s ease-out forwards;
+  }
+
+  .animate-glow-pulse {
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(145 63% 49% / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px hsl(145 63% 49% / 0.5);
+    }
+  }
+
+  /* Staggered animation delays - reduced for speed */
+  .delay-50 { animation-delay: 50ms; }
+  .delay-100 { animation-delay: 100ms; }
+  .delay-150 { animation-delay: 150ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-250 { animation-delay: 250ms; }
+
+  /* Mobile-specific utilities */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Touch-friendly tap targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Smooth scrolling for mobile */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent text selection on buttons */
+  .no-select {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Cyber grid background */
+  .cyber-grid {
+    background-image: 
+      linear-gradient(hsl(var(--border)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+/* Mobile viewport fixes */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
