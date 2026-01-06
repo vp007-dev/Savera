@@ -60,7 +60,7 @@ const AppLayout = ({ children, currentPath }: AppLayoutProps) => {
               <div className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center">
                 <Leaf className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="text-lg font-bold text-foreground">EcoDash</span>
+              <span className="text-lg font-bold text-foreground"><Savera></Savera></span>
             </div>
             <button 
               onClick={() => setSidebarOpen(false)}
@@ -133,7 +133,7 @@ const AppLayout = ({ children, currentPath }: AppLayoutProps) => {
               <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
                 <Leaf className="w-4 h-4 text-primary-foreground" />
               </div>
-              <span className="font-bold text-foreground">EcoDash</span>
+              <span className="font-bold text-foreground">Savera</span>
             </div>
             <div className="w-9" /> {/* Spacer for centering */}
           </div>
