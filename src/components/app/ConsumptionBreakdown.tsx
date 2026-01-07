@@ -28,15 +28,15 @@ const ConsumptionBreakdown = memo(() => {
   }), [activeTab]);
 
   return (
-    <div className="p-4 rounded-3xl bento-card">
+    <div className="p-4 lg:p-6 rounded-3xl bento-card h-full">
       {/* Tab Switcher */}
-      <div className="flex items-center gap-2 p-1 bg-muted/50 rounded-2xl mb-4">
+      <div className="flex items-center gap-2 p-1 bg-muted/50 rounded-2xl mb-4 lg:mb-6 max-w-md">
         <button
           onClick={() => setActiveTab('electricity')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-medium transition-all duration-150 ${
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm lg:text-base font-medium transition-all duration-150 ${
             activeTab === 'electricity' 
               ? 'bg-card shadow-md text-foreground' 
-              : 'text-muted-foreground'
+              : 'text-muted-foreground hover:text-foreground'
           }`}
         >
           <Zap className="w-4 h-4" />
@@ -44,10 +44,10 @@ const ConsumptionBreakdown = memo(() => {
         </button>
         <button
           onClick={() => setActiveTab('water')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-medium transition-all duration-150 ${
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm lg:text-base font-medium transition-all duration-150 ${
             activeTab === 'water' 
               ? 'bg-card shadow-md text-foreground' 
-              : 'text-muted-foreground'
+              : 'text-muted-foreground hover:text-foreground'
           }`}
         >
           <Droplets className="w-4 h-4" />
@@ -56,7 +56,7 @@ const ConsumptionBreakdown = memo(() => {
       </div>
       
       {/* Chart with center label */}
-      <div className="relative h-48">
+      <div className="relative h-48 lg:h-56">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -77,37 +77,37 @@ const ConsumptionBreakdown = memo(() => {
         
         {/* Center label */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <Icon className="w-5 h-5 text-muted-foreground mb-1" />
-          <p className="text-2xl font-bold text-foreground">₹{total.toLocaleString()}</p>
-          <p className="text-xs text-muted-foreground">This month</p>
+          <Icon className="w-5 h-5 lg:w-6 lg:h-6 text-muted-foreground mb-1" />
+          <p className="text-2xl lg:text-3xl font-bold text-foreground">₹{total.toLocaleString()}</p>
+          <p className="text-xs lg:text-sm text-muted-foreground">This month</p>
         </div>
       </div>
       
       {/* Legend - scrollable list */}
-      <div className="mt-4 space-y-2">
+      <div className="mt-4 lg:mt-6 space-y-2">
         {data.map((item) => (
           <div 
             key={item.name}
-            className="flex items-center justify-between p-2.5 rounded-2xl bg-muted/30 active:bg-muted/50 transition-colors duration-150"
+            className="flex items-center justify-between p-2.5 lg:p-3 rounded-2xl bg-muted/30 hover:bg-muted/50 active:bg-muted/50 transition-colors duration-150 cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <div 
                 className="w-3 h-3 rounded-full" 
                 style={{ backgroundColor: item.color }}
               />
-              <span className="text-sm text-foreground">{item.name}</span>
+              <span className="text-sm lg:text-base text-foreground">{item.name}</span>
             </div>
             <div className="text-right">
-              <p className="text-sm font-semibold text-foreground">₹{item.cost}</p>
-              <p className="text-[10px] text-muted-foreground">{item.value}%</p>
+              <p className="text-sm lg:text-base font-semibold text-foreground">₹{item.cost}</p>
+              <p className="text-[10px] lg:text-xs text-muted-foreground">{item.value}%</p>
             </div>
           </div>
         ))}
       </div>
       
       {/* Alert */}
-      <div className={`mt-4 p-3 rounded-2xl ${activeTab === 'electricity' ? 'bg-energy/10 border border-energy/20' : 'bg-destructive/10 border border-destructive/20'}`}>
-        <p className="text-xs text-foreground">
+      <div className={`mt-4 lg:mt-6 p-3 lg:p-4 rounded-2xl ${activeTab === 'electricity' ? 'bg-energy/10 border border-energy/20' : 'bg-destructive/10 border border-destructive/20'}`}>
+        <p className="text-xs lg:text-sm text-foreground">
           {activeTab === 'electricity' 
             ? "💡 AC uses 40% of your electricity. Set to 26°C to save ₹300/month."
             : "🚿 Possible toilet leak detected. Fix to save ₹400/month."

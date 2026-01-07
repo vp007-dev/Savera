@@ -60,7 +60,7 @@ const AppLayout = ({ children, currentPath }: AppLayoutProps) => {
               <div className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center">
                 <Leaf className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="text-lg font-bold text-foreground"><Savera></Savera></span>
+              <span className="text-lg font-bold text-foreground">Savera</span>
             </div>
             <button 
               onClick={() => setSidebarOpen(false)}

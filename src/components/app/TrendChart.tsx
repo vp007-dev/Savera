@@ -18,25 +18,25 @@ const TrendChart = memo(() => {
   }), []);
 
   return (
-    <div className="p-4 rounded-3xl bento-card">
-      <div className="flex items-center justify-between mb-4">
+    <div className="p-4 lg:p-6 rounded-3xl bento-card">
+      <div className="flex items-center justify-between mb-4 lg:mb-6">
         <div>
-          <h3 className="text-base font-semibold text-foreground">Spending Trend</h3>
-          <p className="text-xs text-muted-foreground">6-month history</p>
+          <h3 className="text-base lg:text-lg font-semibold text-foreground">Spending Trend</h3>
+          <p className="text-xs lg:text-sm text-muted-foreground">6-month history</p>
         </div>
-        <div className="flex items-center gap-3 text-[10px]">
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-energy" />
+        <div className="flex items-center gap-3 lg:gap-4 text-[10px] lg:text-xs">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 lg:w-2.5 lg:h-2.5 rounded-full bg-energy" />
             <span className="text-muted-foreground">Electricity</span>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-water" />
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 lg:w-2.5 lg:h-2.5 rounded-full bg-water" />
             <span className="text-muted-foreground">Water</span>
           </div>
         </div>
       </div>
       
-      <div className="h-32">
+      <div className="h-32 lg:h-40">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
             <defs>
@@ -77,18 +77,18 @@ const TrendChart = memo(() => {
       </div>
       
       {/* Summary */}
-      <div className="mt-4 grid grid-cols-3 gap-2">
-        <div className="p-2.5 rounded-2xl bg-energy/10 text-center">
-          <p className="text-lg font-bold text-foreground">-13%</p>
-          <p className="text-[10px] text-muted-foreground">Electricity</p>
+      <div className="mt-4 lg:mt-6 grid grid-cols-3 gap-2 lg:gap-3">
+        <div className="p-2.5 lg:p-3 rounded-2xl bg-energy/10 text-center">
+          <p className="text-lg lg:text-xl font-bold text-foreground">-13%</p>
+          <p className="text-[10px] lg:text-xs text-muted-foreground">Electricity</p>
         </div>
-        <div className="p-2.5 rounded-2xl bg-water/10 text-center">
-          <p className="text-lg font-bold text-foreground">-17%</p>
-          <p className="text-[10px] text-muted-foreground">Water</p>
+        <div className="p-2.5 lg:p-3 rounded-2xl bg-water/10 text-center">
+          <p className="text-lg lg:text-xl font-bold text-foreground">-17%</p>
+          <p className="text-[10px] lg:text-xs text-muted-foreground">Water</p>
         </div>
-        <div className="p-2.5 rounded-2xl bg-success/10 text-center">
-          <p className="text-lg font-bold text-success">₹3K</p>
-          <p className="text-[10px] text-muted-foreground">Saved</p>
+        <div className="p-2.5 lg:p-3 rounded-2xl bg-success/10 text-center">
+          <p className="text-lg lg:text-xl font-bold text-success">₹3K</p>
+          <p className="text-[10px] lg:text-xs text-muted-foreground">Saved</p>
         </div>
       </div>
     </div>

@@ -65,64 +65,50 @@ const OverviewCards = memo(() => {
   ];
 
   return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
-        {cards.slice(0, 2).map((card) => (
+    <div className="space-y-3 lg:space-y-4">
+      {/* All 4 cards in a responsive grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+        {cards.map((card, index) => (
           <div 
             key={card.title}
-            className={`p-4 rounded-3xl border bento-card ${card.colorClass} active:scale-[0.98] transition-transform duration-150`}
+            className={`p-4 lg:p-5 rounded-3xl border bento-card ${card.colorClass} active:scale-[0.98] hover:scale-[1.02] transition-transform duration-150`}
           >
-            <div className="flex items-center gap-2 mb-2">
-              <div className={`w-8 h-8 rounded-xl ${card.iconBg} flex items-center justify-center`}>
-                <card.icon className={`w-4 h-4 ${card.iconColor}`} />
+            <div className="flex items-center gap-2 mb-2 lg:mb-3">
+              <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-xl ${card.iconBg} flex items-center justify-center`}>
+                <card.icon className={`w-4 h-4 lg:w-5 lg:h-5 ${card.iconColor}`} />
               </div>
-              <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
-                card.changeType === 'positive' 
-                  ? 'bg-success/20 text-success' 
-                  : 'bg-destructive/20 text-destructive'
-              }`}>
-                {card.change}
-              </span>
+              {index < 2 ? (
+                <span className={`text-[10px] lg:text-xs font-semibold px-1.5 py-0.5 rounded-full ${
+                  card.changeType === 'positive' 
+                    ? 'bg-success/20 text-success' 
+                    : 'bg-destructive/20 text-destructive'
+                }`}>
+                  {card.change}
+                </span>
+              ) : (
+                <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
+              )}
             </div>
             
-            <p className="text-xl font-bold text-foreground">
+            <p className="text-xl lg:text-2xl font-bold text-foreground">
               <AnimatedValue value={card.numValue} prefix={card.prefix} />
             </p>
-            <p className="text-xs text-muted-foreground">{card.title}</p>
+            <p className="text-xs lg:text-sm text-muted-foreground">{card.title}</p>
             
+            {/* Bottom info */}
             <div className="mt-2 pt-2 border-t border-border/50">
-              <p className="text-[10px] text-muted-foreground">
-                {card.units} • <span className="text-destructive">{card.waste} waste</span>
-              </p>
+              {card.units && card.waste && (
+                <p className="text-[10px] lg:text-xs text-muted-foreground">
+                  {card.units} • <span className="text-destructive">{card.waste} waste</span>
+                </p>
+              )}
+              {card.projected && (
+                <p className="text-[10px] lg:text-xs text-success">{card.projected}</p>
+              )}
+              {card.action && (
+                <p className="text-[10px] lg:text-xs text-primary font-medium">{card.action} →</p>
+              )}
             </div>
-          </div>
-        ))}
-      </div>
-      
-      <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
-        {cards.slice(2).map((card) => (
-          <div 
-            key={card.title}
-            className={`flex-shrink-0 w-[160px] p-4 rounded-3xl border bento-card ${card.colorClass} snap-start active:scale-[0.98] transition-transform duration-150`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <div className={`w-8 h-8 rounded-xl ${card.iconBg} flex items-center justify-center`}>
-                <card.icon className={`w-4 h-4 ${card.iconColor}`} />
-              </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground" />
-            </div>
-            
-            <p className="text-lg font-bold text-foreground">
-              <AnimatedValue value={card.numValue} prefix={card.prefix} />
-            </p>
-            <p className="text-xs text-muted-foreground">{card.title}</p>
-            
-            {card.projected && (
-              <p className="text-[10px] text-success mt-1">{card.projected}</p>
-            )}
-            {card.action && (
-              <p className="text-[10px] text-primary font-medium mt-1">{card.action} →</p>
-            )}
           </div>
         ))}
       </div>
