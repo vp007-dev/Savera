@@ -9,7 +9,7 @@ import RecommendationsList from "@/components/app/RecommendationsList";
 import PullToRefresh from "@/components/app/PullToRefresh";
 import { usePullToRefresh } from "@/hooks/use-pull-to-refresh";
 import { useSwipeNavigation } from "@/hooks/use-swipe-navigation";
-import { Bell, Leaf } from "lucide-react";
+import { Bell, Leaf, Users } from "lucide-react";
 import { toast } from "sonner";
 
 const routes = ["/dashboard", "/challenges", "/impact", "/settings"];
@@ -66,6 +66,14 @@ const Dashboard = () => {
             </div>
             <p className="text-xs text-muted-foreground">Hi Rajesh! Dec 2025</p>
           </div>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => navigate("/family")}
+              className="p-2.5 lg:p-3 rounded-2xl bg-card border border-border active:scale-95 transition-transform duration-150 hover:bg-muted"
+              title="Family"
+            >
+              <Users className="w-5 h-5 lg:w-6 lg:h-6 text-muted-foreground" />
+            </button>
 
           {/* 3. Add the onClick handler here */}
           <button 
@@ -76,6 +84,7 @@ const Dashboard = () => {
             <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary" />
           </button>
         </div>
+      </div>
         
         {/* Overview Cards */}
         <OverviewCards key={`overview-${refreshKey}`} />
