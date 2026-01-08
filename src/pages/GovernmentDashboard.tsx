@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
-  Building, 
   MapPin, 
   TrendingUp,
   TrendingDown,
@@ -12,20 +11,24 @@ import {
   Zap,
   Droplets,
   ArrowLeft,
-  Clock,
   BarChart3,
   Target,
   Leaf
 } from "lucide-react";
-import { AreaChart, Area, XAxis, ResponsiveContainer, BarChart, Bar } from "recharts";
+import { XAxis, ResponsiveContainer, BarChart, Bar } from "recharts";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { alertStore, GovernmentAlert } from "@/lib/alertStore";
 
 const GovernmentDashboard = () => {
   const navigate = useNavigate();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [notificationTitle, setNotificationTitle] = useState("");
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [alertType, setAlertType] = useState<GovernmentAlert['type']>("info");
 
   const regions = [
     { name: "Koramangala", usage: 85, trend: -5 },
@@ -59,12 +62,25 @@ const GovernmentDashboard = () => {
   };
 
   const handleSendNotification = () => {
+    if (!notificationTitle.trim() || !notificationMessage.trim()) {
+      toast({
+        title: "Error",
+        description: "Please fill in both title and message",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    alertStore.sendAlert(alertType, notificationTitle, notificationMessage);
+    
     toast({
-      title: "Notification sent",
-      description: "Public notification has been broadcast to all users",
+      title: "Alert sent successfully!",
+      description: "Public notification has been broadcast to all users instantly",
     });
     setShowNotificationModal(false);
+    setNotificationTitle("");
     setNotificationMessage("");
+    setAlertType("info");
   };
 
   return (
@@ -275,12 +291,31 @@ const GovernmentDashboard = () => {
                 <p className="text-xs lg:text-sm text-muted-foreground">Broadcast to all users</p>
               </div>
             </div>
-            <Textarea
-              placeholder="Type your notification message..."
-              value={notificationMessage}
-              onChange={(e) => setNotificationMessage(e.target.value)}
-              className="mb-4 min-h-[100px] lg:min-h-[120px] rounded-xl"
-            />
+            <div className="space-y-3 mb-4">
+              <Select value={alertType} onValueChange={(v) => setAlertType(v as GovernmentAlert['type'])}>
+                <SelectTrigger className="rounded-xl">
+                  <SelectValue placeholder="Alert Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="emergency">🚨 Emergency</SelectItem>
+                  <SelectItem value="outage">⚡ Outage</SelectItem>
+                  <SelectItem value="conservation">💡 Conservation</SelectItem>
+                  <SelectItem value="info">ℹ️ Information</SelectItem>
+                </SelectContent>
+              </Select>
+              <Input
+                placeholder="Alert title..."
+                value={notificationTitle}
+                onChange={(e) => setNotificationTitle(e.target.value)}
+                className="rounded-xl"
+              />
+              <Textarea
+                placeholder="Type your notification message..."
+                value={notificationMessage}
+                onChange={(e) => setNotificationMessage(e.target.value)}
+                className="min-h-[100px] lg:min-h-[120px] rounded-xl"
+              />
+            </div>
             <div className="flex gap-3">
               <Button 
                 variant="outline" 

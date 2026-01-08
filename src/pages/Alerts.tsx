@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MobileLayout from "@/components/app/MobileLayout";
 import { 
   Bell, 
@@ -14,6 +14,7 @@ import {
   WifiOff
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { alertStore, GovernmentAlert } from "@/lib/alertStore";
 
 interface Alert {
   id: string;
@@ -24,57 +25,67 @@ interface Alert {
   location?: string;
   read: boolean;
   resource?: "electricity" | "water";
+  isGovernment?: boolean;
 }
 
+const formatTimeAgo = (date: Date): string => {
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+  
+  if (diffMins < 1) return "Just now";
+  if (diffMins < 60) return `${diffMins} min ago`;
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+  return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+};
+
 const Alerts = () => {
-  const [alerts, setAlerts] = useState<Alert[]>([
+  const [governmentAlerts, setGovernmentAlerts] = useState<GovernmentAlert[]>([]);
+  
+  // Subscribe to real-time government alerts
+  useEffect(() => {
+    const unsubscribe = alertStore.subscribe((alerts) => {
+      setGovernmentAlerts(alerts);
+    });
+    return unsubscribe;
+  }, []);
+
+  const staticAlerts: Alert[] = [
     {
-      id: "1",
-      type: "emergency",
-      title: "Water Supply Disruption",
-      description: "Scheduled maintenance will affect water supply in your area from 10 AM to 2 PM tomorrow.",
-      time: "2 hours ago",
-      location: "Koramangala, Bangalore",
-      read: false,
-      resource: "water",
-    },
-    {
-      id: "2",
+      id: "static-1",
       type: "outage",
       title: "Power Outage Reported",
       description: "BESCOM reports power outage in nearby areas. Estimated restoration: 4 PM today.",
       time: "5 hours ago",
       location: "HSR Layout",
-      read: false,
+      read: true,
       resource: "electricity",
     },
     {
-      id: "3",
+      id: "static-2",
       type: "conservation",
       title: "Heat Wave Advisory",
       description: "High temperatures expected this week. Reduce AC usage during peak hours (2-6 PM) to prevent grid overload.",
       time: "1 day ago",
       read: true,
     },
-    {
-      id: "4",
-      type: "info",
-      title: "Water Conservation Week",
-      description: "Join the city-wide water conservation initiative. Reduce usage by 10% and earn bonus points!",
-      time: "2 days ago",
-      read: true,
-      resource: "water",
-    },
-    {
-      id: "5",
-      type: "conservation",
-      title: "Peak Demand Alert",
-      description: "High electricity demand expected between 6-9 PM. Consider shifting heavy appliance use to off-peak hours.",
-      time: "3 days ago",
-      read: true,
-      resource: "electricity",
-    },
-  ]);
+  ];
+
+  // Combine government alerts with static alerts
+  const allAlerts: Alert[] = [
+    ...governmentAlerts.map(ga => ({
+      id: ga.id,
+      type: ga.type,
+      title: ga.title,
+      description: ga.message,
+      time: formatTimeAgo(ga.timestamp),
+      read: ga.read,
+      isGovernment: true,
+    })),
+    ...staticAlerts,
+  ];
 
   const [preferences, setPreferences] = useState({
     outages: true,
@@ -83,11 +94,13 @@ const Alerts = () => {
     locationBased: true,
   });
 
-  const markAsRead = (id: string) => {
-    setAlerts(prev => prev.map(a => a.id === id ? { ...a, read: true } : a));
+  const markAsRead = (id: string, isGovernment?: boolean) => {
+    if (isGovernment) {
+      alertStore.markAsRead(id);
+    }
   };
 
-  const unreadCount = alerts.filter(a => !a.read).length;
+  const unreadCount = allAlerts.filter(a => !a.read).length;
 
   const getAlertStyle = (type: string) => {
     switch (type) {
@@ -128,10 +141,10 @@ const Alerts = () => {
         {/* Quick Filters */}
         <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
           {[
-            { label: "All", count: alerts.length },
-            { label: "Emergency", count: alerts.filter(a => a.type === "emergency").length },
-            { label: "Outages", count: alerts.filter(a => a.type === "outage").length },
-            { label: "Conservation", count: alerts.filter(a => a.type === "conservation").length },
+            { label: "All", count: allAlerts.length },
+            { label: "Emergency", count: allAlerts.filter(a => a.type === "emergency").length },
+            { label: "Outages", count: allAlerts.filter(a => a.type === "outage").length },
+            { label: "Conservation", count: allAlerts.filter(a => a.type === "conservation").length },
           ].map((filter, i) => (
             <button
               key={filter.label}
@@ -146,18 +159,25 @@ const Alerts = () => {
 
         {/* Alerts List */}
         <div className="space-y-3">
-          {alerts.map((alert) => {
-            const style = getAlertStyle(alert.type);
-            const Icon = style.icon;
-            
-            return (
-              <div 
-                key={alert.id}
-                onClick={() => markAsRead(alert.id)}
-                className={`glass rounded-2xl p-4 transition-all active:scale-[0.99] cursor-pointer ${
-                  !alert.read ? 'ring-2 ring-primary/30' : 'opacity-80'
-                }`}
-              >
+          {allAlerts.length === 0 ? (
+            <div className="glass rounded-2xl p-8 text-center">
+              <Bell className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">No alerts yet</p>
+              <p className="text-xs text-muted-foreground mt-1">Government alerts will appear here instantly</p>
+            </div>
+          ) : (
+            allAlerts.map((alert) => {
+              const style = getAlertStyle(alert.type);
+              const Icon = style.icon;
+              
+              return (
+                <div 
+                  key={alert.id}
+                  onClick={() => markAsRead(alert.id, alert.isGovernment)}
+                  className={`glass rounded-2xl p-4 transition-all active:scale-[0.99] cursor-pointer ${
+                    !alert.read ? 'ring-2 ring-primary/30' : 'opacity-80'
+                  }`}
+                >
                 <div className="flex items-start gap-3">
                   <div className={`w-10 h-10 rounded-xl ${style.bg} flex items-center justify-center shrink-0`}>
                     <Icon className={`w-5 h-5 ${style.color}`} />
@@ -183,6 +203,11 @@ const Alerts = () => {
                           {alert.location}
                         </div>
                       )}
+                      {alert.isGovernment && (
+                        <span className="px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[9px] font-medium">
+                          Gov Alert
+                        </span>
+                      )}
                       {alert.resource && (
                         <div className="flex items-center gap-1">
                           {alert.resource === "electricity" 
@@ -197,7 +222,8 @@ const Alerts = () => {
                 </div>
               </div>
             );
-          })}
+          })
+          )}
         </div>
 
         {/* Preferences */}
